@@ -1,0 +1,41 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+uniform vec4 color2 : hint_color;
+uniform vec4 color3 : hint_color;
+uniform float per : hint_range(0,1);
+uniform int amount : hint_range(1,3);
+
+void fragment(){
+	if(amount == 1)
+	{
+		COLOR.rgb = color.rgb;
+	}
+	if(amount == 2)
+	{
+		if(UV.y < 0.5){
+			COLOR.rgb = color.rgb;
+		}else{
+			COLOR.rgb = color2.rgb;
+		}
+		
+	}
+	if(amount == 3)
+	{
+		if(UV.y < 0.42){
+			COLOR.rgb = color.rgb;
+		}
+		else if(UV.y < 0.55){
+			COLOR.rgb = color2.rgb;
+		}
+		else{
+			COLOR.rgb = color3.rgb;
+		}
+	}
+		
+	COLOR.a = texture(TEXTURE , UV).a;
+	
+}"

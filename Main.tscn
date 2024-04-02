@@ -26,37 +26,8 @@ smoothing_speed = 8.0
 
 [node name="Screens" parent="." instance=ExtResource( 2 )]
 
-[node name="Label" parent="Screens/SettingsScreen/MarginContainer/VBoxContainer" index="0"]
-margin_bottom = 77.0
-
-[node name="Buttons" parent="Screens/SettingsScreen/MarginContainer/VBoxContainer" index="1"]
-margin_top = 227.0
-margin_bottom = 327.0
-
-[node name="Buttons2" parent="Screens/SettingsScreen/MarginContainer/VBoxContainer" index="2"]
-margin_top = 477.0
-margin_bottom = 577.0
-
 [node name="DEV" parent="Screens/SettingsScreen/MarginContainer/VBoxContainer" index="3"]
-visible = true
-margin_top = 727.0
-margin_bottom = 767.0
 script = ExtResource( 6 )
-
-[node name="Label" parent="Screens/SkinsScreen/MarginContainer/VBoxContainer" index="0"]
-margin_bottom = 77.0
-
-[node name="Buttons" parent="Screens/SkinsScreen/MarginContainer/VBoxContainer" index="1"]
-margin_top = 267.0
-margin_bottom = 267.0
-
-[node name="Buttons2" parent="Screens/SkinsScreen/MarginContainer/VBoxContainer" index="2"]
-margin_top = 457.0
-margin_bottom = 457.0
-
-[node name="Buttons3" parent="Screens/SkinsScreen/MarginContainer/VBoxContainer" index="3"]
-margin_top = 647.0
-margin_bottom = 747.0
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 

@@ -1,0 +1,332 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://object/color_shader.tres" type="Shader" id=1]
+[ext_resource path="res://assets/fonts/Xolonium-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/fonts/font64.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assets/audio/70.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/images/jumper.png" type="Texture" id=5]
+[ext_resource path="res://assets/audio/88.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/images/circle1_n.png" type="Texture" id=7]
+[ext_resource path="res://dev_tools/SkinRevDEV.gd" type="Script" id=8]
+[ext_resource path="res://assets/images/buttons/right.png" type="Texture" id=9]
+[ext_resource path="res://assets/images/buttons/return.png" type="Texture" id=10]
+[ext_resource path="res://assets/images/circle_fill.png" type="Texture" id=11]
+[ext_resource path="res://assets/images/buttons/plus.png" type="Texture" id=12]
+[ext_resource path="res://assets/images/buttons/minus.png" type="Texture" id=13]
+[ext_resource path="res://dev_tools/ButtonsContainer.gd" type="Script" id=14]
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+uniform float speed : hint_range(0,20);
+uniform float radius : hint_range(0,1);
+uniform float width: hint_range(0,1);
+
+void fragment(){
+	vec2 center = vec2(0.5);
+	float time = TIME * speed;
+	float rad = radius - 0.005 * sin(time);
+	float thickness = width + 0.05 * cos(time);
+	float dist = distance(UV, center);
+	COLOR.rgb = color.rgb;
+	COLOR.a = texture(TEXTURE , UV).a + smoothstep(thickness/2.0, 0.0, abs(dist - rad));
+}"
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/speed = 0.0
+shader_param/radius = 0.29
+shader_param/width = 0.14
+
+[sub_resource type="Shader" id=13]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+
+void fragment(){
+	COLOR.rgb = color.rgb;
+	COLOR.a = texture(TEXTURE , UV).a;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 13 )
+shader_param/color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/color2 = null
+shader_param/color3 = Color( 1, 0, 0, 1 )
+shader_param/per = 0.5
+shader_param/amount = 1
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0, 0, 0, 0, 0.0625, 0.604492, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 20
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 5
+shadow_offset = Vector2( 3, 3 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 32
+font_data = ExtResource( 2 )
+
+[node name="SkinCreator" type="CanvasLayer"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 460.0
+margin_bottom = 834.0
+custom_constants/separation = 107
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Container"]
+margin_right = 440.0
+margin_bottom = 132.0
+
+[node name="Label" type="Label" parent="MarginContainer/Container/VBoxContainer"]
+margin_right = 440.0
+margin_bottom = 78.0
+custom_fonts/font = ExtResource( 3 )
+text = "#121212"
+align = 1
+
+[node name="Export" type="TextureButton" parent="MarginContainer/Container/VBoxContainer"]
+margin_top = 82.0
+margin_right = 440.0
+margin_bottom = 132.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 50, 50 )
+texture_normal = ExtResource( 10 )
+expand = true
+stretch_mode = 4
+
+[node name="SkinContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+margin_top = 239.0
+margin_right = 440.0
+margin_bottom = 339.0
+custom_constants/separation = 99
+alignment = 1
+
+[node name="LeftButton" type="TextureButton" parent="MarginContainer/Container/SkinContainer"]
+margin_left = 21.0
+margin_right = 121.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 9 )
+flip_h = true
+
+[node name="SkinRev" type="Control" parent="MarginContainer/Container/SkinContainer"]
+margin_left = 220.0
+margin_right = 220.0
+margin_bottom = 100.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/Container/SkinContainer/SkinRev"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -140.0
+margin_right = 100.0
+margin_bottom = 210.0
+rect_scale = Vector2( 1, 0.9 )
+color = Color( 0.360784, 0.360784, 0.360784, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Circle2" type="Node2D" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect" groups=["circle"]]
+position = Vector2( 130.987, 56.2559 )
+scale = Vector2( 0.337596, 0.370104 )
+
+[node name="Sprite" type="Sprite" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Circle2"]
+material = SubResource( 7 )
+texture = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Circle2"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -22.5
+margin_top = -39.0
+margin_right = 22.5
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 3 )
+text = "1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite2" type="Sprite" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Circle2/Label"]
+show_behind_parent = true
+material = SubResource( 14 )
+position = Vector2( 22.5001, 38.9999 )
+texture = ExtResource( 11 )
+
+[node name="Circle1" type="Node2D" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect" groups=["circle"]]
+position = Vector2( 59.4169, 274.618 )
+scale = Vector2( 0.337596, 0.370104 )
+z_index = 1261
+z_as_relative = false
+
+[node name="Sprite" type="Sprite" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Circle1"]
+material = SubResource( 7 )
+texture = ExtResource( 7 )
+
+[node name="Jumper_show" type="Node2D" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect"]
+position = Vector2( 103.98, 159.885 )
+rotation = -1.17974
+scale = Vector2( 0.729588, 0.686655 )
+z_index = 10
+
+[node name="Sprite" type="Sprite" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Jumper_show"]
+material = SubResource( 1 )
+position = Vector2( 17.0511, -1.12245 )
+rotation = 1.56483
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 5 )
+
+[node name="Jump" type="AudioStreamPlayer" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Jumper_show"]
+stream = ExtResource( 4 )
+
+[node name="Capture" type="AudioStreamPlayer" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Jumper_show"]
+stream = ExtResource( 6 )
+
+[node name="Points" type="Line2D" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect/Jumper_show"]
+position = Vector2( -12.4582, -8.96371 )
+rotation = 1.14629
+scale = Vector2( 1.48106, 1.50108 )
+z_index = -2
+width = 5.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 2 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect"]
+show_behind_parent = true
+anchor_right = 0.029
+margin_right = 194.2
+margin_bottom = 350.0
+custom_styles/panel = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="elementLabel" type="Label" parent="MarginContainer/Container/SkinContainer/SkinRev/ColorRect"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 25.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 10 )
+text = "player_trail"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RightButton" type="TextureButton" parent="MarginContainer/Container/SkinContainer"]
+margin_left = 319.0
+margin_right = 419.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 9 )
+
+[node name="ButtonsContainer" type="HBoxContainer" parent="MarginContainer/Container"]
+margin_top = 446.0
+margin_right = 440.0
+margin_bottom = 632.0
+script = ExtResource( 14 )
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/Container/ButtonsContainer"]
+margin_right = 50.0
+margin_bottom = 186.0
+
+[node name="Plus" type="TextureButton" parent="MarginContainer/Container/ButtonsContainer/VBoxContainer2"]
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+texture_normal = ExtResource( 12 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MarginContainer/Container/ButtonsContainer/VBoxContainer2"]
+margin_top = 54.0
+margin_right = 50.0
+margin_bottom = 132.0
+custom_fonts/font = ExtResource( 3 )
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Minus" type="TextureButton" parent="MarginContainer/Container/ButtonsContainer/VBoxContainer2"]
+margin_top = 136.0
+margin_right = 50.0
+margin_bottom = 186.0
+rect_min_size = Vector2( 50, 50 )
+texture_normal = ExtResource( 13 )
+expand = true
+
+[node name="ColorPicker" type="ColorPicker" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -128.0
+margin_top = -292.0
+margin_right = 352.0
+margin_bottom = 120.0
+rect_scale = Vector2( 0.7, 0.7 )
+alignment = 1
+edit_alpha = false
+presets_enabled = false
+presets_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="MarginContainer/Container/VBoxContainer/Export" to="MarginContainer/Container/SkinContainer/SkinRev" method="_on_Export_pressed"]
+[connection signal="pressed" from="MarginContainer/Container/SkinContainer/LeftButton" to="MarginContainer/Container/SkinContainer/SkinRev" method="_on_LeftButton_pressed"]
+[connection signal="hide_ele" from="MarginContainer/Container/SkinContainer/SkinRev" to="MarginContainer/Container/ButtonsContainer" method="_on_SkinRev_hide_ele"]
+[connection signal="show_ele" from="MarginContainer/Container/SkinContainer/SkinRev" to="MarginContainer/Container/ButtonsContainer" method="_on_SkinRev_show_ele"]
+[connection signal="update_label" from="MarginContainer/Container/SkinContainer/SkinRev" to="MarginContainer/Container/ButtonsContainer" method="_on_SkinRev_update_label"]
+[connection signal="pressed" from="MarginContainer/Container/SkinContainer/RightButton" to="MarginContainer/Container/SkinContainer/SkinRev" method="_on_RightButton_pressed"]
+[connection signal="pressed" from="MarginContainer/Container/ButtonsContainer/VBoxContainer2/Plus" to="MarginContainer/Container/SkinContainer/SkinRev" method="_on_Plus_pressed"]
+[connection signal="pressed" from="MarginContainer/Container/ButtonsContainer/VBoxContainer2/Minus" to="MarginContainer/Container/SkinContainer/SkinRev" method="_on_Minus_pressed"]
+[connection signal="color_changed" from="ColorPicker" to="MarginContainer/Container/SkinContainer/SkinRev" method="_on_ColorPicker_color_changed"]

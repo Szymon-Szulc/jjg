@@ -1,0 +1,47 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://ManipulateLeaderboard.gd" type="Script" id=1]
+
+[node name="ManipulateLeaderboard" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Nick" type="LineEdit" parent="."]
+margin_left = 39.0
+margin_top = 382.0
+margin_right = 417.0
+margin_bottom = 455.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Score" type="LineEdit" parent="."]
+margin_left = 37.0
+margin_top = 481.0
+margin_right = 415.0
+margin_bottom = 554.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RESET" type="Button" parent="."]
+margin_left = 5.0
+margin_top = 8.0
+margin_right = 88.0
+margin_bottom = 54.0
+text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Add" type="Button" parent="."]
+margin_left = 65.0
+margin_top = 591.0
+margin_right = 376.0
+margin_bottom = 637.0
+text = "Add"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="RESET" to="." method="_on_RESET_pressed"]
+[connection signal="pressed" from="Add" to="." method="_on_Add_pressed"]

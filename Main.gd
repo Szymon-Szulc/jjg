@@ -93,7 +93,7 @@ func set_score(value):
 
 func anticheat_score(value):
 	secure_score = value
-	print(secure_score/(secure_value + random_secure_value))
+	#print(secure_score/(secure_value + random_secure_value))
 	if(score !=  secure_score/(secure_value + random_secure_value)):
 		$HUD.show_message("CHEATER!")
 		print("CHEATER")

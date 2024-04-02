@@ -1,0 +1,316 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://object/color_shader.tres" type="Shader" id=1]
+[ext_resource path="res://assets/fonts/font64.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/images/circle1_n.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/jumper.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/circle_fill.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/lock.png" type="Texture" id=6]
+[ext_resource path="res://object/SkinRev.gd" type="Script" id=7]
+[ext_resource path="res://assets/images/circle_2.png" type="Texture" id=9]
+[ext_resource path="res://assets/fonts/font16.tres" type="DynamicFont" id=10]
+
+[sub_resource type="Shader" id=15]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+
+void fragment(){
+	COLOR.rgb = color.rgb;
+	COLOR.a = texture(TEXTURE , UV).a;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = SubResource( 15 )
+shader_param/color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="Shader" id=6]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+uniform float speed : hint_range(0,20);
+uniform float radius : hint_range(0,1);
+uniform float width: hint_range(0,1);
+
+void fragment(){
+	vec2 center = vec2(0.5);
+	float time = TIME * speed;
+	float rad = radius - 0.005 * sin(time);
+	float thickness = width + 0.05 * cos(time);
+	float dist = distance(UV, center);
+	COLOR.rgb = color.rgb;
+	COLOR.a = texture(TEXTURE , UV).a + smoothstep(thickness/2.0, 0.0, abs(dist - rad));
+}"
+
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 6 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/speed = 0.0
+shader_param/radius = 0.29
+shader_param/width = 0.14
+
+[sub_resource type="ShaderMaterial" id=19]
+shader = SubResource( 6 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/speed = 0.0
+shader_param/radius = 0.29
+shader_param/width = 0.14
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = ExtResource( 1 )
+shader_param/color = null
+shader_param/color2 = null
+shader_param/color3 = null
+shader_param/per = null
+shader_param/amount = null
+
+[sub_resource type="ShaderMaterial" id=20]
+shader = ExtResource( 1 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/color2 = Color( 0, 0, 0, 1 )
+shader_param/color3 = Color( 0.968627, 1, 0, 1 )
+shader_param/per = 0.434
+shader_param/amount = 1
+
+[sub_resource type="Gradient" id=21]
+colors = PoolColorArray( 0, 0, 0, 0, 0.0625, 0.604492, 1, 1 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+corner_detail = 20
+shadow_size = 5
+shadow_offset = Vector2( 3, 3 )
+
+[sub_resource type="Shader" id=22]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color;
+uniform float speed : hint_range(0,20);
+uniform float radius : hint_range(0,1);
+uniform float radius2 : hint_range(0,1);
+uniform float width: hint_range(0,1);
+uniform float width2: hint_range(0,1);
+
+void fragment(){
+	vec2 center = vec2(0.5);
+	float time = TIME * speed;
+	float rad = radius - 0.005 * sin(time);
+	float rad2 = radius2 - 0.005 * sin(time);
+	float thickness = width + 0.05 * cos(time);
+	float thickness2 = width2 + 0.05 * cos(time);
+	float dist = distance(UV, center);
+	COLOR.rgb = color.rgb;
+	COLOR.a = texture(TEXTURE , UV).a + smoothstep(thickness/2.0, 0.0, abs(dist - rad));
+	COLOR.a += texture(TEXTURE , UV).a + smoothstep(thickness2/2.0, 0.0, abs(dist - rad2));
+}"
+
+[sub_resource type="ShaderMaterial" id=23]
+shader = SubResource( 22 )
+shader_param/color = Color( 1, 0.772549, 0, 1 )
+shader_param/speed = 0.0
+shader_param/radius = 0.343
+shader_param/radius2 = 0.167
+shader_param/width = 0.205
+shader_param/width2 = 0.174
+
+[node name="SkinRev" type="Control" groups=["skinsRev"]]
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -62.5
+margin_top = -70.0
+margin_right = 62.5
+margin_bottom = 70.0
+mouse_filter = 1
+color = Color( 0.360784, 0.360784, 0.360784, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="circle_limited" type="Node2D" parent="background" groups=["circle"]]
+position = Vector2( 92.5, 29 )
+scale = Vector2( 0.17, 0.17 )
+
+[node name="Label" type="Label" parent="background/circle_limited"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -22.5
+margin_top = -39.0
+margin_right = 22.5
+margin_bottom = 39.0
+custom_fonts/font = ExtResource( 2 )
+text = "1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="circle_fill" type="Sprite" parent="background/circle_limited/Label"]
+show_behind_parent = true
+material = SubResource( 14 )
+position = Vector2( 22.5, 39 )
+texture = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="background/circle_limited"]
+material = SubResource( 18 )
+texture = ExtResource( 3 )
+
+[node name="circle_static" type="Node2D" parent="background" groups=["circle"]]
+position = Vector2( 29.5, 109 )
+scale = Vector2( 0.17, 0.17 )
+z_index = 10
+z_as_relative = false
+
+[node name="Sprite" type="Sprite" parent="background/circle_static"]
+material = SubResource( 19 )
+texture = ExtResource( 3 )
+
+[node name="jumper" type="Node2D" parent="background"]
+material = SubResource( 12 )
+position = Vector2( 64.5, 69 )
+rotation = -0.981742
+scale = Vector2( 0.3, 0.3 )
+
+[node name="Sprite" type="Sprite" parent="background/jumper"]
+material = SubResource( 20 )
+position = Vector2( 17.0511, -1.12245 )
+rotation = 1.56483
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 4 )
+
+[node name="trail" type="Line2D" parent="background/jumper/Sprite"]
+show_behind_parent = true
+position = Vector2( -11.4531, 42.0886 )
+rotation = -0.41854
+scale = Vector2( 2.1158, 2.1444 )
+width = 5.0
+default_color = Color( 0.4, 0.501961, 1, 1 )
+gradient = SubResource( 21 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="frame" type="Panel" parent="background"]
+show_behind_parent = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -70.0
+margin_top = -77.0
+margin_right = 70.0
+margin_bottom = 77.0
+mouse_filter = 1
+custom_styles/panel = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="name_skin" type="Label" parent="background"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -61.5
+margin_top = 83.0
+margin_right = 64.5
+margin_bottom = 108.0
+custom_fonts/font = ExtResource( 10 )
+text = "Valentine"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="blur" type="Node2D" parent="."]
+z_index = 397
+
+[node name="blur" type="ColorRect" parent="blur"]
+light_mask = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -62.5
+margin_top = -70.0
+margin_right = 62.5
+margin_bottom = 70.0
+mouse_filter = 1
+color = Color( 0, 0, 0, 0.662745 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="TextureRect" parent="blur/blur"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -12.5
+margin_top = -25.5
+margin_right = 12.5
+margin_bottom = -0.5
+rect_min_size = Vector2( 25, 25 )
+texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="blur/blur"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="blur/blur/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite2" type="TextureRect" parent="blur/blur/Control/HBoxContainer"]
+material = SubResource( 23 )
+margin_left = 45.0
+margin_right = 69.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 24, 24 )
+texture = ExtResource( 9 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="blur/blur/Control/HBoxContainer"]
+margin_left = 69.0
+margin_top = 2.0
+margin_right = 80.0
+margin_bottom = 22.0
+rect_pivot_offset = Vector2( 0, 39 )
+custom_fonts/font = ExtResource( 10 )
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="gui_input" from="." to="." method="_on_SkinRev_gui_input"]
