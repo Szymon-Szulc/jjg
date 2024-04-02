@@ -1,0 +1,95 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://UI/BaseScreen.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/images/buttons/right.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/buttons/gear.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/font16.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/images/buttons/brush.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/buttons/trophy.png" type="Texture" id=6]
+[ext_resource path="res://UI/TitleScreen.gd" type="Script" id=7]
+[ext_resource path="res://assets/fonts/font32.tres" type="DynamicFont" id=8]
+
+[node name="TitleScreen" instance=ExtResource( 1 )]
+script = ExtResource( 7 )
+
+[node name="VBoxContainer" parent="MarginContainer" index="0"]
+custom_constants/separation = 133
+
+[node name="Label" parent="MarginContainer/VBoxContainer" index="0"]
+margin_bottom = 157.0
+text = "Jump Jump
+Game"
+
+[node name="Welcome" type="Label" parent="MarginContainer/VBoxContainer/Label" index="0"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 10.0
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 8 )
+text = "Hello Stefan!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Buttons" parent="MarginContainer/VBoxContainer" index="1"]
+margin_top = 290.0
+margin_bottom = 390.0
+
+[node name="Trophy" type="TextureButton" parent="MarginContainer/VBoxContainer/Buttons" index="0" groups=["buttons"]]
+margin_left = 20.0
+margin_right = 120.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 6 )
+
+[node name="Skin" type="TextureButton" parent="MarginContainer/VBoxContainer/Buttons" index="1" groups=["buttons"]]
+margin_left = 170.0
+margin_right = 270.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 5 )
+
+[node name="Settings" type="TextureButton" parent="MarginContainer/VBoxContainer/Buttons" index="2" groups=["buttons"]]
+margin_left = 320.0
+margin_right = 420.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 3 )
+
+[node name="Buttons2" parent="MarginContainer/VBoxContainer" index="2"]
+margin_top = 523.0
+margin_bottom = 623.0
+
+[node name="Play" type="TextureButton" parent="MarginContainer/VBoxContainer/Buttons2" index="0" groups=["buttons"]]
+margin_left = 170.0
+margin_right = 270.0
+margin_bottom = 100.0
+texture_normal = ExtResource( 2 )
+
+[node name="MarginContainer2" type="MarginContainer" parent="." index="1"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -40.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Version" type="HBoxContainer" parent="MarginContainer2" index="0"]
+margin_left = 10.0
+margin_top = 5.0
+margin_right = 475.0
+margin_bottom = 35.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MarginContainer2/Version" index="0"]
+margin_top = 5.0
+margin_right = 81.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 4 )
+text = "Wersja: 2"
